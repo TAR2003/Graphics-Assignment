@@ -1,0 +1,40 @@
+# Ultra-Fast Motion Blur Project Dockerfile - Python Only
+FROM python:3.10-slim
+
+# Environment setup
+ENV PYTHONUNBUFFERED=1
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install only essential system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libfontconfig1 \
+    libxrender1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python packages
+RUN pip install --no-cache-dir \
+    numpy \
+    opencv-python-headless \
+    matplotlib \
+    pillow
+
+# Set working directory
+WORKDIR /app
+
+# Create output directory
+RUN mkdir -p /app/output
+
+# Copy project files
+COPY . .
+
+# Create simple build script
+RUN echo '#!/bin/bash\nset -e\necho "🚀 Running Motion Blur Python Demo..."\npython motion_blur_demo.py\necho "✅ Demo completed! Check output/ directory"\nls -la output/ 2>/dev/null || echo "No output files generated"' > run_demo.sh && chmod +x run_demo.sh
+
+# Set the default command
+CMD ["./run_demo.sh"]
+
+# Expose volume for output
+VOLUME ["/app/output"]

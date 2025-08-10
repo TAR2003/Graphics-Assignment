@@ -1,0 +1,10 @@
+services:
+  motion-blur-demo:
+    build:
+      context: .
+      dockerfile: Dockerfile.fast
+    container_name: motion_blur_fast
+    volumes:
+      - ./output:/app/output
+    environment:
+      - PYTHONUNBUFFERED=1

@@ -1,0 +1,12 @@
+services:
+  motion-blur-builder:
+    build: .
+    container_name: motion_blur_generator
+    volumes:
+      - ./output:/app/output
+    environment:
+      - PYTHONUNBUFFERED=1
+    working_dir: /app
+    command: ./build_and_run.sh
+    stdin_open: true
+    tty: true
