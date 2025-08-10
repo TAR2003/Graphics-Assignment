@@ -1,0 +1,10 @@
+services:
+  motion-blur-complete:
+    build:
+      context: .
+      dockerfile: Dockerfile.complete
+    container_name: motion_blur_complete
+    volumes:
+      - ./output:/app/output
+    environment:
+      - PYTHONUNBUFFERED=1

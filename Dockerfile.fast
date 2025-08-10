@@ -30,8 +30,8 @@ RUN mkdir -p /app/output
 # Copy project files
 COPY . .
 
-# Create simple build script
-RUN echo '#!/bin/bash\nset -e\necho "🚀 Running Motion Blur Python Demo..."\npython motion_blur_demo.py\necho "✅ Demo completed! Check output/ directory"\nls -la output/ 2>/dev/null || echo "No output files generated"' > run_demo.sh && chmod +x run_demo.sh
+# Create simple build script that saves to /app/output
+RUN echo '#!/bin/bash\nset -e\necho "🚀 Running Motion Blur Python Demo..."\npython motion_blur_demo.py\necho "✅ Demo completed! Files saved to output/ directory"\nls -la output/ 2>/dev/null || echo "Checking output files..."\nfind . -name "*.png" -o -name "*.gif" | head -10' > run_demo.sh && chmod +x run_demo.sh
 
 # Set the default command
 CMD ["./run_demo.sh"]

@@ -222,7 +222,7 @@ def create_motion_blur_demo():
     renderer = MotionBlurRenderer(800, 600)
     
     # Create output directory
-    os.makedirs("motion_blur_output", exist_ok=True)
+    os.makedirs("output", exist_ok=True)
     
     # Generate scene objects
     objects = renderer.create_scene_objects()
@@ -266,7 +266,7 @@ def create_motion_blur_demo():
     create_animation(frames, blurred_frames)
     
     print("\n🎯 Motion Blur Demo Complete!")
-    print("📁 Check 'motion_blur_output' folder for results")
+    print("📁 Check 'output' folder for results")
     print("🖼️  Files generated:")
     print("   - comparison_frame_*.png (frame comparisons)")
     print("   - motion_blur_animation.gif (animated result)")
@@ -304,7 +304,7 @@ def save_comparison_images(frames, velocity_frames, blurred_frames):
         axes[1, 1].axis('off')
         
         plt.tight_layout()
-        plt.savefig(f'motion_blur_output/comparison_frame_{i:02d}.png', 
+        plt.savefig(f'output/comparison_frame_{i:02d}.png', 
                    dpi=150, bbox_inches='tight')
         plt.close()
     
@@ -342,7 +342,7 @@ def create_velocity_analysis(velocity_frame):
     plt.colorbar(im3, ax=axes[2], fraction=0.046, pad=0.04)
     
     plt.tight_layout()
-    plt.savefig('motion_blur_output/velocity_buffer_analysis.png', 
+    plt.savefig('output/velocity_buffer_analysis.png', 
                dpi=150, bbox_inches='tight')
     plt.close()
 
@@ -373,7 +373,7 @@ def create_animation(original_frames, blurred_frames):
                         interval=100, blit=False, repeat=True)
     
     # Save as GIF
-    anim.save('motion_blur_output/motion_blur_animation.gif', 
+    anim.save('output/motion_blur_animation.gif', 
              writer='pillow', fps=10, dpi=100)
     plt.close()
 

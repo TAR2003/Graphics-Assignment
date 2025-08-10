@@ -1,0 +1,93 @@
+# Complete Motion Blur Project Dockerfile - Python + LaTeX
+FROM python:3.10-slim
+
+# Environment setup
+ENV PYTHONUNBUFFERED=1
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install system dependencies (minimal LaTeX + Python)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    # Python dependencies
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libfontconfig1 \
+    libxrender1 \
+    # Minimal LaTeX installation
+    texlive-latex-base \
+    texlive-latex-recommended \
+    texlive-fonts-recommended \
+    texlive-latex-extra \
+    texlive-science \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python packages
+RUN pip install --no-cache-dir \
+    numpy \
+    opencv-python-headless \
+    matplotlib \
+    pillow
+
+# Set working directory
+WORKDIR /app
+
+# Create output directory
+RUN mkdir -p /app/output
+
+# Copy project files
+COPY . .
+
+# Create comprehensive build script
+RUN cat > run_complete.sh << 'EOF'
+#!/bin/bash
+set -e
+
+echo "🚀 Complete Motion Blur Project Builder"
+echo "======================================"
+echo ""
+
+# Create output directory
+mkdir -p output
+
+echo "🎮 Step 1: Running Motion Blur Python Demo..."
+echo "--------------------------------------------"
+python motion_blur_demo.py
+echo "✅ Python demo completed!"
+
+echo ""
+echo "📄 Step 2: Building LaTeX PDF (if main.tex exists)..."
+echo "---------------------------------------------------"
+if [ -f "main.tex" ]; then
+    echo "🔨 Compiling LaTeX..."
+    pdflatex -interaction=nonstopmode -output-directory=output main.tex > latex_build.log 2>&1
+    pdflatex -interaction=nonstopmode -output-directory=output main.tex >> latex_build.log 2>&1
+    
+    if [ -f "output/main.pdf" ]; then
+        mv output/main.pdf output/Motion_Blur_Presentation.pdf
+        echo "✅ LaTeX PDF generated: output/Motion_Blur_Presentation.pdf"
+    else
+        echo "⚠️ LaTeX compilation had issues (check latex_build.log)"
+        echo "But continuing with Python demo results..."
+    fi
+else
+    echo "⚠️ main.tex not found, skipping LaTeX build"
+fi
+
+echo ""
+echo "📊 Build Summary"
+echo "---------------"
+echo "Generated files in output/:"
+ls -la output/ 2>/dev/null | grep -E '\.(png|gif|pdf)$' || echo "No output files found"
+
+echo ""
+echo "🎯 Project build complete!"
+EOF
+
+# Make script executable
+RUN chmod +x run_complete.sh
+
+# Set the default command
+CMD ["./run_complete.sh"]
+
+# Expose volume for output
+VOLUME ["/app/output"]
