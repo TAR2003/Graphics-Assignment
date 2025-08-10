@@ -4,7 +4,6 @@
 \usefonttheme{professionalfonts}
 \include{preamble}
 
-% Packages
 \usepackage{tikz}
 \usepackage{pgfplots}
 \usepackage{listings}
@@ -15,7 +14,6 @@
 \usepackage{caption}
 \usepackage{subcaption}
 
-% TikZ libraries
 \usetikzlibrary{arrows.meta}
 \usetikzlibrary{shapes}
 \usetikzlibrary{positioning}
@@ -23,7 +21,6 @@
 \usetikzlibrary{patterns}
 \usetikzlibrary{calc}
 
-% Code highlighting
 \lstset{
     language=C++,
     basicstyle=\tiny\ttfamily,
@@ -36,7 +33,6 @@
     showstringspaces=false
 }
 
-% Enhanced GLSL syntax highlighting
 \lstdefinestyle{glslstyle}{
     language=C,
     basicstyle=\tiny\ttfamily,
@@ -54,8 +50,6 @@
 }
 
 
-
-% Then in your lstlisting, you can use: style=glsl instead of the individual options
 
 
 \title{Motion Blur using Velocity Buffers}
@@ -102,11 +96,11 @@
                 \label{fig:placeholder}
             \end{figure}
             \begin{tikzpicture}[scale=0.9]
-                % Static object
+                
                 \draw[fill=blue!40, draw=blue!80] (0,2.5) rectangle (0.8,3);
                 \node[above, font=\small] at (0.4,3.1) {Static};
                 
-                % Motion blur effect - more compact
+                
                 \foreach \i/\op in {0/0.2, 0.15/0.35, 0.3/0.5, 0.45/0.65, 0.6/0.8} {
                     \draw[fill=red!\op!red!70, draw=red!80, opacity=\op] 
                          (\i,1) rectangle (\i+0.8,1.5);
@@ -116,7 +110,8 @@
                 \node[below, font=\small] at (0.9,0.6) {Motion};
                 \node[above, font=\small] at (1,1.6) {Blur};
                 
-                % Comparison arrows
+
+            
                 \draw[<->, gray, dashed] (0.4,2.3) -- (0.4,1.7);
                 \node[left, font=\tiny, gray] at (0.3,2) {vs};
             \end{tikzpicture}
@@ -139,16 +134,16 @@
             
             \vspace{0.2cm}
             \hspace{1cm}\begin{tikzpicture}[scale=0.7]
-                % Camera simplified
+                
                 \draw[thick, fill=gray!20] (0,1) rectangle (0.4,1.4);
                 \draw[->, thick] (0.4,1.2) -- (1.2,1.2);
                 
-                % Moving object path
+                
                 \draw[dashed, blue] (1.8,0.8) -- (1.8,1.6);
                 \filldraw[red] (1.8,1.2) circle (0.08);
                 \node[right, font=\tiny] at (1.9,1.2) {Object};
                 
-                % Time axis
+                
                 \draw[->] (0,0.5) -- (2.5,0.5);
                 \node[below, font=\tiny] at (1.25,0.4) {Time};
             \end{tikzpicture}
@@ -166,16 +161,16 @@
             
             \vspace{0.2cm}
             \hspace{1cm}\begin{tikzpicture}[scale=0.7]
-                % Render samples - simplified
+                
                 \foreach \x in {0,0.4,0.8,1.2,1.6} {
                     \draw[thick, blue, fill=blue!20] (\x,0.8) rectangle (\x+0.25,1.2);
                 }
                 
-                % Blend arrow
+               
                 \draw[->, thick, red] (2,1) -- (2.8,1);
                 \node[above, font=\tiny] at (2.4,1) {Blend};
                 
-                % Final result
+                
                 \draw[fill=purple!50] (3,0.8) rectangle (3.25,1.2);
             \end{tikzpicture}
         \end{column}
@@ -198,10 +193,9 @@
         box/.style={draw, rounded corners, fill=blue!15, minimum width=2.2cm, minimum height=1.2cm},
         arrow/.style={->, thick, blue}
     ]
-        % Main title
+        
         \node[font=\Large\bfseries] at (6,7.5) {Motion Blur Types};
         
-        % Three types with compact descriptions
         \node[box] (obj) at (2,6) {\textbf{Object\\Motion}};
         \node[below=0.05cm of obj, font=\tiny, text width=2cm, align=center] {Moving objects};
         
@@ -211,16 +205,13 @@
         \node[box] (def) at (10,6) {\textbf{Deformation\\Blur}};
         \node[below=0.05cm of def, font=\tiny, text width=2cm, align=center] {Shape changes};
         
-        % Simplified examples
-        % Object motion
         \begin{scope}[shift={(2,4.5)}]
             \foreach \i/\op in {0/1, 0.2/0.7, 0.4/0.4, 0.6/0.2} {
                 \draw[fill=red!\op!red, opacity=\op] (\i,0) circle (0.12);
             }
             \draw[->, blue] (0,-0.3) -- (0.8,-0.3);
         \end{scope}
-        
-        % Camera motion  
+         
         \begin{scope}[shift={(6,4.5)}]
             \draw[dashed, gray] (0,0) -- (0.8,0.3);
             \draw[dashed, gray] (0,0) -- (0.8,0);
@@ -229,14 +220,12 @@
             \node[right, font=\tiny] at (0.9,0) {Scene};
         \end{scope}
         
-        % Deformation
         \begin{scope}[shift={(10,4.5)}]
             \draw[blue, thick] (0,0) sin (0.3,0.2) cos (0.6,0);
             \draw[red, opacity=0.6] (0,0) sin (0.25,0.25) cos (0.5,0);
             \draw[green, opacity=0.6] (0,0) sin (0.35,0.15) cos (0.7,0);
         \end{scope}
         
-        % Compact techniques box
         \node[draw, rounded corners, fill=green!10] at (6,2.5) {
             \parbox{10cm}{
                 \textbf{Implementation Techniques:}\\[0.1cm]
@@ -283,33 +272,29 @@
         \begin{column}{0.42\textwidth}
         
             \begin{tikzpicture}[scale=0.8]
-                % Color buffer
+                
                 \draw[thick, fill=gray!10] (0,3.2) rectangle (2.5,4);
                 \node[above, font=\small] at (1.25,4) {Color Buffer};
                 \fill[red!40] (0.1,3.3) rectangle (0.7,3.9);
                 \fill[blue!40] (0.9,3.3) rectangle (1.5,3.9);
                 \fill[green!40] (1.7,3.3) rectangle (2.3,3.9);
                 \vspace{1cm}
-                % Velocity buffer
+                
                 
                 \draw[thick, fill=gray!10] (0,1) rectangle (2.5,1.8);
                 \node[above, font=\small] at (1.25,1.8) {Velocity Buffer};
                 
-                % Motion vectors - simplified
                 \foreach \x/\dx/\dy in {0.4/0.2/0.05, 1.2/0.3/0.1, 2/0.15/-0.05} {
                     \draw[->, thick, red] (\x,1.4) -- (\x+\dx,1.4+\dy);
                     \filldraw[black] (\x,1.4) circle (0.02);
                 }
                 
-                % Process arrow
                 \draw[->, ultra thick, blue] (2.7,1.6) -- (3.3,1.6);
                 \node[above, font=\tiny] at (3,1.7) {Blur};
                 
-                % Result - compact
                 \draw[thick, fill=gray!10] (3.5,1) rectangle (6.2,3);
                 \node[above, font=\small] at (4.75,3) {Motion Blurred};
                 
-                % Simplified blur streaks
                 \foreach \i/\op in {0/0.8, 0.1/0.6, 0.2/0.4, 0.3/0.2} {
                     \draw[red, opacity=\op] (3.6+\i,2.3) rectangle (4.2+\i,2.9);
                     \draw[blue, opacity=\op] (4.4+1.5*\i,2.3) rectangle (5+1.5*\i,2.9);
@@ -332,7 +317,7 @@
 \begin{frame}[fragile,shrink=2]{How Velocity Buffers Are Computed}
     
     \begin{columns}[t]
-        \begin{column}{0.36\textwidth}  % Slightly wider for code
+        \begin{column}{0.36\textwidth} 
             \textbf{Step 1: Vertex Shader}
             \begin{lstlisting}[style=glslstyle, basicstyle=\tiny\ttfamily, numbers=none, backgroundcolor=\color{blue!8}, frame=single]
 layout(location = 0) in vec3 position;
@@ -348,7 +333,7 @@ void main() {
             \end{lstlisting}
         \end{column}
         
-        \begin{column}{0.30\textwidth}  % Slightly wider for code
+        \begin{column}{0.30\textwidth}  
             \textbf{Step 2: Fragment Shader}
             \begin{lstlisting}[style=glslstyle, basicstyle=\tiny\ttfamily, numbers=none, backgroundcolor=\color{green!8}, frame=single]
 in vec4 currentPos, previousPos;
@@ -365,7 +350,7 @@ void main() {
             \end{lstlisting}
         \end{column}
         
-        \begin{column}{0.36\textwidth}  % Narrower for math
+        \begin{column}{0.36\textwidth} 
             \textbf{\scriptsize Mathematical Example:}
             \vspace{0.1cm}
             {\scriptsize
@@ -395,16 +380,8 @@ void main() {
 \end{frame}
 
 
-
-
-
-
-
-
-
 \begin{frame}[shrink=5]{Velocity Buffer Computation Pipeline}
     
-    % Pipeline diagram with better readability
     \begin{center}
         \begin{tikzpicture}[
             box/.style={draw, rounded corners, fill=blue!15, minimum width=1.8cm, minimum height=0.6cm, font=\small},
@@ -425,7 +402,6 @@ void main() {
     
     \vspace{0.1cm}
     
-    % Three-column layout with larger boxes
     \begin{columns}[t]
         \begin{column}{0.33\textwidth}
             \begin{block}{\textbf{Mathematical Formulation}}
@@ -464,7 +440,6 @@ void main() {
     
     \vspace{0.1cm}
     
-    % Pipeline Summary with readable font
     \begin{center}
         \colorbox{yellow!20}{\parbox{9cm}{\centering\small
             \textbf{Pipeline Summary:} Transform vertices with both current and previous MVP matrices, compute screen-space motion vectors in fragment shader, store as velocity buffer
@@ -511,21 +486,17 @@ void main() {
         \begin{column}{0.32\textwidth}
             \textbf{Sampling Strategy:}
             \begin{tikzpicture}[scale=0.7]
-                % Current pixel
                 \filldraw[red] (2,2.5) circle (0.1);
                 \node[above, font=\scriptsize] at (2,1.9) {Current};
                 
-                % Motion vector
                 \draw[->, ultra thick, blue] (2,2.5) -- (4,3.5);
                 \node[right, font=\scriptsize] at (4.1,3.5) {Motion Vector};
                 
-                % Sample points
                 \foreach \i/\t in {1/0.25, 2/0.5, 3/0.75, 4/1.0} {
                     \filldraw[green!70] ($(2,2.5) + \t*(2,1)$) circle (0.06);
                     \node[above, font=\scriptsize] at ($(2,2.5) + \t*(2,1) + (0,0.2)$) {\i};
                 }
                 
-                % Quality vs samples
                 \begin{scope}[shift={(0,0.3)}]
                     \draw[->] (0,0) -- (3,0) node[right, font=\scriptsize] {Samples};
                     \draw[->] (0,0) -- (0,1.5) node[above, font=\scriptsize] {Quality};
@@ -600,7 +571,6 @@ void main() {
     
     \vspace{0.2cm}
     
-    % Main diagram - more compact
     \begin{center}
         \begin{tikzpicture}[scale=0.75]
             \filldraw[red] (0,1) circle (0.06);
@@ -618,7 +588,6 @@ void main() {
     
     \vspace{0.2cm}
     
-    % Simplified three-column layout
     \begin{columns}[t]
         \begin{column}{0.32\textwidth}
             \textbf{Sampling Methods:}
@@ -676,7 +645,6 @@ void main() {
         arrow/.style={->, thick, blue!70},
         infobox/.style={draw, rounded corners, fill=#1, text width=3cm, font=\tiny, inner sep=3pt}
     ]
-        % Main pipeline flow - centered and compact
         \node[stage] (geo) at (1.5,5.5) {\footnotesize\textbf{Geometry Pass}};
         \node[data] (vel) at (1.5,4.2) {\scriptsize Velocity Buffer\\(RG16F)};
         \node[data] (color) at (1.5,3.2) {\scriptsize Color Buffer\\(RGBA8)};
@@ -684,14 +652,12 @@ void main() {
         \node[stage] (post) at (5.5,5.5) {\footnotesize\textbf{Post-Process}};
         \node[data] (result) at (5.5,3.7) {\scriptsize Final Result\\(RGBA8)};
         
-        % Pipeline arrows
         \draw[arrow] (geo) -- (vel);
         \draw[arrow] (geo) -- (color);
         \draw[arrow] (vel) -- (post);
         \draw[arrow] (color) -- (post);
         \draw[arrow] (post) -- (result);
         
-        % Code snippets - positioned better
         \node[infobox=yellow!15] (code1) at (1.5,1.8) {
             \textbf{Velocity Gen:}\\
             \texttt{\scriptsize vel = curr - prev;}
@@ -702,7 +668,6 @@ void main() {
             \texttt{\scriptsize col += tex(uv-vel*t);}
         };
         
-        % Right side information panels - better positioned
         \node[infobox=red!15] (perf) at (9,4.8) {
             \textbf{Performance:}\\
             • Half-precision floats\\
@@ -719,11 +684,9 @@ void main() {
             • Noise filter
         };
         
-        % Title annotations
         \node[above=2mm of geo, font=\tiny, gray] {Frame N \& N-1};
         \node[above=2mm of post, font=\tiny, gray] {Screen Space};
         
-        % Flow indicators
         \draw[dashed, gray!50] (3.3,5.5) -- (3.7,5.5);
         \node[above, font=\tiny, gray] at (3.5,5.6) {passes to};
         
@@ -731,7 +694,6 @@ void main() {
     
     \vspace{0.3cm}
     
-    % Bottom summary with better spacing
     \begin{center}
         \begin{tikzpicture}
             \node[draw, rounded corners, fill=blue!10, text width=11cm, text centered] {
@@ -824,7 +786,6 @@ void main() {
     
     \vspace{0.05cm}
     
-    % Engine comparison in a clean table format
     \begin{columns}[t]
         \begin{column}{0.32\textwidth}
             \begin{block}{Unreal Engine}
@@ -859,7 +820,6 @@ void main() {
     
     \vspace{0.05cm}
     
-    % Common features
     \begin{block}{Common Implementation Features}
         \begin{columns}[t]
             \begin{column}{0.48\textwidth}
@@ -883,7 +843,6 @@ void main() {
     
     \vspace{0.05cm}
     
-    % Performance comparison (simplified)
     \begin{center}
         \textbf{Quality vs Performance Trade-off:} \\
         \textcolor{blue}{Unity} (High Performance) $\rightarrow$ 
@@ -894,7 +853,6 @@ void main() {
 
 
 \begin{frame}{Final Thoughts}
-    % Main takeaways at top
     \begin{block}{Key Takeaways}
         \begin{itemize}
             \item \textbf{Velocity buffers} provide an efficient solution for real-time motion blur
@@ -906,7 +864,6 @@ void main() {
     
     \vspace{0.3cm}
     
-    % Two-column layout for practices and future work
     \begin{columns}[t]
         \begin{column}{0.48\textwidth}
             \begin{tikzpicture}
@@ -941,7 +898,6 @@ void main() {
     
     \vspace{0.4cm}
     
-    % Performance tip
     \begin{center}
         \begin{tikzpicture}
             \node[draw, rounded corners, fill=red!10, minimum width=0.9\textwidth, minimum height=1cm] {
@@ -956,7 +912,6 @@ void main() {
     
     \vspace{0.3cm}
     
-    % Bottom line
     \begin{center}
         \begin{tikzpicture}
             \node[draw, rounded corners, fill=blue!12, minimum width=0.85\textwidth, minimum height=0.8cm] {
